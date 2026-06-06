@@ -1,0 +1,49 @@
+---
+// Server Only (Ejecutado en el servidor)
+// Pero siempre sera estático debido a que ese es el comportamiento por defecto de astro
+
+const name = "Jeral Pineda";
+const title = "Home Page";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home Page</a>
+      <a href="/about">About Page</a>
+      <a href="/contact">Contact Page</a>
+    </nav>
+
+    <h1>{name}</h1>
+
+    <p>Momento actual: {new Date().toLocaleTimeString()}</p>
+    <p id="current-time">Momento actual real:</p>
+
+    <footer>{new Date().getFullYear()}</footer>
+
+    <script>
+      // Client Only (Solo se ejecuta en el lado del cliente)
+
+      //Agrupar elementos html al inicio
+      const footer = document.querySelector("footer") as HTMLElement;
+      const curretTimeParagraph = document.querySelector(
+        "#current-time",
+      ) as HTMLParagraphElement;
+
+      const currentYear: number = new Date().getFullYear();
+
+      footer.innerText = `Año: ${currentYear}`;
+
+      // Esto es básicamente "Client Side Rendering"
+      curretTimeParagraph.innerText = `Momento actual real: ${new Date().toLocaleTimeString()}`;
+    </script>
+  </body>
+</html>
