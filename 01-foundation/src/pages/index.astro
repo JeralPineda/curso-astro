@@ -1,4 +1,6 @@
 ---
+import Navbar from "@/components/Navbar.astro";
+
 // Server Only (Ejecutado en el servidor)
 // Pero siempre sera estático debido a que ese es el comportamiento por defecto de astro
 
@@ -16,11 +18,7 @@ const title = "Home Page";
     <title>{title}</title>
   </head>
   <body>
-    <nav>
-      <a href="/">Home Page</a>
-      <a href="/about">About Page</a>
-      <a href="/contact">Contact Page</a>
-    </nav>
+    <Navbar />
 
     <h1>{name}</h1>
 
