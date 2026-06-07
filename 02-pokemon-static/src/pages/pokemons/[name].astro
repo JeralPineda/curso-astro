@@ -1,17 +1,35 @@
 ---
+import PokemonCard from "@/components/pokemons/PokemonCard.astro";
 import MainLayout from "@/layout/MainLayout.astro";
 
 export function getStaticPaths() {
   return [
     {
       params: { name: "ivysaur" },
+      props: { name: "ivysaur", url: "https://pokeapi.co/api/v2/pokemon/2/" },
     },
   ];
 }
 
 const { name } = Astro.params;
+const { url } = Astro.props;
+
+const id = url.split("/").at(-2);
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
 ---
 
 <MainLayout title="Algun pokemon">
-  <h1 class="text-3xl capitalize">{name}</h1>
+  <section class="mx-10 mt-10 flex flex-col items-center justify-center">
+    <div class="mb-10">
+      <a href="/" class="text-blue-500 hover:underline">Regresar</a>
+      <h1 class="text-5xl capitalize">{name}</h1>
+    </div>
+
+    <PokemonCard name={name} url={url} />
+
+    <audio controls class="mt-5">
+      <source src={audioSrc} type="audio/ogg" />
+      Your browser does not support the audio element.
+    </audio>
+  </section>
 </MainLayout>
