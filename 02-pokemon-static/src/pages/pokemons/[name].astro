@@ -1,0 +1,17 @@
+---
+import MainLayout from "@/layout/MainLayout.astro";
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { name: "ivysaur" },
+    },
+  ];
+}
+
+const { name } = Astro.params;
+---
+
+<MainLayout title="Algun pokemon">
+  <h1 class="text-3xl capitalize">{name}</h1>
+</MainLayout>
