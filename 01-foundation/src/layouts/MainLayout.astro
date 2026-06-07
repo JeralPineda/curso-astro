@@ -1,4 +1,7 @@
 ---
+import "@/styles/global.css";
+
+import CustomTitle from "@/components/CustomTitle.astro";
 import Navbar from "@/components/Navbar.astro";
 
 interface Props {
@@ -18,7 +21,7 @@ const { title, name } = Astro.props;
 
   <body>
     <Navbar />
-    <h1>{name}</h1>
+    <CustomTitle title={name} />
     <slot />
   </body>
 </html>
