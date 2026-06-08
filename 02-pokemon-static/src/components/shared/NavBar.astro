@@ -1,0 +1,37 @@
+---
+const links = [
+  {
+    href: "/",
+    text: "Listado",
+  },
+  {
+    href: "/pokemons/1",
+    text: "Paginado",
+  },
+  {
+    href: "/favorites",
+    text: "Favoritos",
+  },
+];
+---
+
+<nav class="bg-slate-900 shadow">
+  <div
+    class="container mx-auto flex items-center justify-center p-6 text-gray-600 capitalize"
+  >
+    <!-- class="mx-1.5 border-b-2 border-transparent hover:border-blue-500 hover:text-gray-800 sm:mx-6 dark:hover:text-gray-200" -->
+
+    {
+      links.map(({ href, text }) => (
+        <a
+          href={href}
+          class:list={[
+            "mx-1.5 border-b-2 border-blue-500 text-gray-800 sm:mx-6 dark:text-gray-200",
+          ]}
+        >
+          {text}
+        </a>
+      ))
+    }
+  </div>
+</nav>
