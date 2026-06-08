@@ -1,5 +1,4 @@
 ---
-// Código Server Side Only - Momento de construcción BUILD TIME
 import PokemonCard from "@/components/pokemons/PokemonCard.astro";
 import type { PokemonListResponse } from "@/interfaces/pokemon-list";
 import MainLayout from "@/layout/MainLayout.astro";
@@ -27,12 +26,28 @@ const { page } = Astro.props;
   </section>
 
   <section class="mt-10 flex items-center gap-2">
-    <a class="btn" href={page.url.prev}>Anteriores</a>
-    <a class="btn" href={page.url.next}>Siguientes</a>
+    <a
+      class:list={[
+        "btn",
+        {
+          disabled: !page.url.prev,
+        },
+      ]}
+      href={page.url.prev}>Anteriores</a
+    >
+    <a
+      class:list={[
+        "btn",
+        {
+          disabled: !page.url.next,
+        },
+      ]}
+      href={page.url.next}>Siguientes</a
+    >
 
     <div class="flex flex-1"></div>
 
-    <span>Pagina {page.currentPage}</span>
+    <span class="text-xl font-bold">Pagina {page.currentPage}</span>
   </section>
 </MainLayout>
 
