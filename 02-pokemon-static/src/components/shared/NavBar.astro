@@ -13,24 +13,49 @@ const links = [
     text: "Favoritos",
   },
 ];
+
+const { pathname } = Astro.url;
 ---
 
 <nav class="bg-slate-900 shadow">
   <div
     class="container mx-auto flex items-center justify-center p-6 text-gray-600 capitalize"
   >
-    <!-- class="mx-1.5 border-b-2 border-transparent hover:border-blue-500 hover:text-gray-800 sm:mx-6 dark:hover:text-gray-200" -->
+    <!-- { -->
+    <!--   links.map(({ href, text }) => ( -->
+    <!--     <a -->
+    <!--       href={href} -->
+    <!--       class:list={[ -->
+    <!--         "mx-1.5 text-gray-800 sm:mx-6 dark:text-gray-200", -->
+    <!--         { -->
+    <!--           "border-b-2 border-blue-500": pathname === href, -->
+    <!--         }, -->
+    <!--       ]} -->
+    <!--     > -->
+    <!--       {text} -->
+    <!--     </a> -->
+    <!--   )) -->
+    <!-- } -->
 
     {
       links.map(({ href, text }) => (
-        <a
-          href={href}
-          class:list={[
-            "mx-1.5 border-b-2 border-blue-500 text-gray-800 sm:mx-6 dark:text-gray-200",
-          ]}
-        >
-          {text}
-        </a>
+        <div>
+          <a
+            href={href}
+            class="mx-1.5 text-gray-800 sm:mx-6 dark:text-gray-200"
+          >
+            {text}
+          </a>
+
+          {pathname === href ? (
+            <div
+              transition:name="menu-line"
+              class="mx-4 border-b-2 border-blue-500"
+            />
+          ) : (
+            <div class="border-b-2 border-transparent" />
+          )}
+        </div>
       ))
     }
   </div>

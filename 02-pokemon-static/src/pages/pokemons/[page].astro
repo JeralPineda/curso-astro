@@ -1,5 +1,6 @@
 ---
 import PokemonCard from "@/components/pokemons/PokemonCard.astro";
+import Title from "@/components/shared/Title.astro";
 import type { PokemonListResponse } from "@/interfaces/pokemon-list";
 import MainLayout from "@/layout/MainLayout.astro";
 import type { GetStaticPaths } from "astro";
@@ -15,8 +16,7 @@ const { page } = Astro.props;
 ---
 
 <MainLayout title="Pokemon Sstatic | Home">
-  <h1 class="text-3xl">Listado de Pokemons</h1>
-  <hr />
+  <Title>Listado Paginado</Title>
 
   <section
     aria-label="Listado de Pokemons"
