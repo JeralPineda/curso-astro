@@ -1,15 +1,17 @@
 ---
 import PokemonCard from "@/components/pokemons/PokemonCard.astro";
+import type { PokemonListResponse } from "@/interfaces/pokemon-list";
 import MainLayout from "@/layout/MainLayout.astro";
 
-export function getStaticPaths() {
-  return [
-    {
-      params: { name: "ivysaur" },
-      props: { name: "ivysaur", url: "https://pokeapi.co/api/v2/pokemon/2/" },
-    },
-  ];
-}
+export const getStaticPaths = async () => {
+  const resp = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+  const { results } = (await resp.json()) as PokemonListResponse;
+
+  return results.map(({ name, url }) => ({
+    params: { name },
+    props: { name, url },
+  }));
+};
 
 const { name } = Astro.params;
 const { url } = Astro.props;
