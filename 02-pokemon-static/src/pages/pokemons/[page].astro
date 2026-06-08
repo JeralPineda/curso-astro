@@ -1,0 +1,49 @@
+---
+// Código Server Side Only - Momento de construcción BUILD TIME
+import PokemonCard from "@/components/pokemons/PokemonCard.astro";
+import type { PokemonListResponse } from "@/interfaces/pokemon-list";
+import MainLayout from "@/layout/MainLayout.astro";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const resp = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+  const { results } = (await resp.json()) as PokemonListResponse;
+
+  return paginate(results, { pageSize: 20 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainLayout title="Pokemon Sstatic | Home">
+  <h1 class="text-3xl">Listado de Pokemons</h1>
+  <hr />
+
+  <section
+    aria-label="Listado de Pokemons"
+    class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-4 md:grid-cols-5"
+  >
+    {page?.data.map((pokemon) => <PokemonCard {...pokemon} />)}
+  </section>
+
+  <section class="mt-10 flex items-center gap-2">
+    <a class="btn" href={page.url.prev}>Anteriores</a>
+    <a class="btn" href={page.url.next}>Siguientes</a>
+
+    <div class="flex flex-1"></div>
+
+    <span>Pagina {page.currentPage}</span>
+  </section>
+</MainLayout>
+
+<style>
+  @reference "tailwindcss";
+
+  .btn {
+    @apply rounded-md bg-blue-500 p-2 text-white;
+  }
+
+  .disabled {
+    @apply bg-gray-600 text-gray-400;
+  }
+</style>
