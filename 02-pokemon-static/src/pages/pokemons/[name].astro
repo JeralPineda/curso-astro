@@ -36,7 +36,7 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
         <Title>{name}</Title>
       </div>
 
-      <button id="btn-favorite">
+      <button id="btn-favorite" data-name={name} data-id={id}>
         <Icon name="heart-outline" size={50} />
         <Icon class="hidden" name="heart-fill" size={50} />
       </button>
@@ -50,6 +50,37 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     </audio>
   </section>
 </MainLayout>
+
+<!-- Al parecer actualmente no puedo mandar variables desde el script y usar
+typescript a la vez porque define:vars // obliga a Astro a procesar el script
+en el navegador y no en el servidor. -->
+
+<script>
+  interface FavoritePokemon {
+    name: string;
+    id: number;
+  }
+
+  // Se envuelve todo en un addEventListener para que se ejecute después de la carga
+  // si no cada que doy click en el botón no me trae los datos nuevos solo la primera vez que ingreso a la pantalla, esto debido a ViewTransition
+  document.addEventListener("astro:page-load", () => {
+    const btnFavorite = document.querySelector(
+      "#btn-favorite",
+    ) as HTMLButtonElement;
+
+    if (!btnFavorite) return;
+
+    const name = btnFavorite.dataset.name;
+    const id = btnFavorite.dataset.id;
+
+    btnFavorite.addEventListener("click", () => {
+      console.log(
+        "🚀 [name].astro -> #72 ~ name:",
+        JSON.stringify({ name, id }, null, 2),
+      );
+    });
+  });
+</script>
 
 <style>
   @reference "tailwindcss";
