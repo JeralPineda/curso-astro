@@ -1,0 +1,35 @@
+---
+import { Counter } from "@/components/Counter";
+import Title from "@/components/shared/Title.astro";
+import MainLayout from "@/layout/MainLayout.astro";
+---
+
+<MainLayout title="Islands">
+  <Title>Islands</Title>
+
+  <!-- Directivas del lado del cliente -->
+  <!-- client:load => prioridad alta, Carga e hidrata el JavaScript del componente inmediatamente al cargar la página. -->
+  <!-- <BuyButton client:load /> -->
+
+  <!-- client:idle => prioridad media, Carga e hidrata el componente JavaScript una vez que la página haya terminado con su carga inicial y se haya activado el evento requestIdleCallback. Si está en un navegador que no es compatible con requestIdleCallback, entonces se usará el evento load. -->
+  <!-- <ShowHideButton client:idle /> -->
+
+  <!-- timeout: Esto te permite pasar un valor para la opción timeout desde la especificación de requestIdleCallback(). Esto significa que puedes retrasar la hidratación de elementos de la interfaz de usuario de menor prioridad con más control, asegurando que tu elemento sea interactivo dentro de un período de tiempo determinado. -->
+  <!-- <ShowHideButton client:idle={{timeout: 500}} /> -->
+
+  <!-- client:visible: prioridad baja, Carga e hidrata el JavaScript del componente una vez que haya ingresado al viewport del usuario. Esto utiliza un IntersectionObserver internamente para realizar un seguimiento de la visibilidad. -->
+  <!-- <HeavyImageCarousel client:visible /> -->
+
+  <!-- client:visible={{rootMargin}}: Opcionalmente, se puede pasar un valor para rootMargin al IntersectionObserver subyacente. Cuando se especifica rootMargin, el componente de JavaScript se hidratará cuando un margen especificado (en píxeles) alrededor del componente entre en el viewport, en lugar del propio componente.  -->
+  <!-- <HeavyImageCarousel client:visible={{rootMargin: "200px"}} /> -->
+
+  <!-- client:media: prioridad baja, client:media={string} carga e hidrata el componente JavaScript una vez que se cumple una determinada media query de CSS. -->
+  <!-- <SidebarToggle client:media="(max-width: 50em)" /> -->
+  <!-- Nota: Si el componente ya está oculto y se muestra mediante media queries de
+  CSS, entonces puede ser más fácil simplemente usar client:visible y no pasar la
+  misma media query a la directiva. -->
+
+  <!-- client:only: evita la renderización del servidor HTML y solo se renderiza en el cliente. Actúa de manera similar a client:load en el sentido de que carga, procesa e hidrata el componente inmediatamente al cargar la página. -->
+
+  <Counter client:load />
+</MainLayout>
