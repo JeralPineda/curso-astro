@@ -56,10 +56,7 @@ typescript a la vez porque define:vars // obliga a Astro a procesar el script
 en el navegador y no en el servidor. -->
 
 <script>
-  interface FavoritePokemon {
-    name: string;
-    id: number;
-  }
+  import type { FavoritePokemon } from "@/interfaces/favorite-pokemon";
 
   // Astro's View Transition API lifecycle events in order are:
   // document.addEventListener("astro:before-preparation", () => {
