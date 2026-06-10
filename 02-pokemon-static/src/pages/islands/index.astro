@@ -2,6 +2,8 @@
 import { Counter } from "@/components/Counter";
 import Title from "@/components/shared/Title.astro";
 import MainLayout from "@/layout/MainLayout.astro";
+
+const counterValue = 20;
 ---
 
 <MainLayout title="Islands">
@@ -31,5 +33,22 @@ import MainLayout from "@/layout/MainLayout.astro";
 
   <!-- client:only: evita la renderización del servidor HTML y solo se renderiza en el cliente. Actúa de manera similar a client:load en el sentido de que carga, procesa e hidrata el componente inmediatamente al cargar la página. -->
 
-  <Counter client:load />
+  <!-- Si tengo otro counter en otra pantalla, con transition:persist="counter" en ambos, se sincronizan para mantener el mismo valor y persistir.  -->
+  <!-- transition:persist-props permite persistir las props definidas en el componente, si yo le mando 10 que mantenga ese valor en las transiciones -->
+  <Counter
+    transition:persist="counter"
+    persist:persist-props
+    client:load
+    initValue={counterValue}
+  >
+    <h1 class="text-3xl">Counter</h1>
+  </Counter>
+
+  <!-- Si tengo este mismo video en otra pantalla, con transition:persist="video" en ambos, se sincronizan para mantener el mismo valor y persistir. -->
+  <video controls muted autoplay transition:persist>
+    <source
+      src="https://ia804502.us.archive.org/33/items/GoldenGa1939_3/GoldenGa1939_3_512kb.mp4"
+      type="video/mp4"
+    />
+  </video>
 </MainLayout>
