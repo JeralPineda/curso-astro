@@ -90,11 +90,6 @@ en el navegador y no en el servidor. -->
       localStorage.getItem("favorites") ?? "[]",
     );
 
-    console.log(
-      "🚀 [name].astro -> #93 ~ favoritePokemon:",
-      JSON.stringify(favoritePokemons, null, 2),
-    );
-
     const btnFavorite = document.querySelector(
       "#btn-favorite",
     ) as HTMLButtonElement;
@@ -103,11 +98,18 @@ en el navegador y no en el servidor. -->
 
     const name = btnFavorite.dataset.name ?? "";
     const id = btnFavorite.dataset.id ?? "";
+    const isFavorite = favoritePokemons.some((fav) => fav.name === name);
 
     const heartOutline = btnFavorite.querySelector(
       "[data-outline]",
     ) as HTMLElement;
     const heartFull = btnFavorite.querySelector("[data-full]") as HTMLElement;
+
+    // Función para mostrar o ocultar el corazón lleno
+    if (isFavorite) {
+      heartOutline.classList.add("hidden");
+      heartFull.classList.remove("hidden");
+    }
 
     const toggleFavorite = () => {
       const isFavorite = favoritePokemons.some((fav) => fav.name === name);
