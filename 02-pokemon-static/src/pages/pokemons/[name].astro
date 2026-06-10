@@ -61,9 +61,31 @@ en el navegador y no en el servidor. -->
     id: number;
   }
 
+  // Astro's View Transition API lifecycle events in order are:
+  // document.addEventListener("astro:before-preparation", () => {
+  //   console.log("astro:before-preparation");
+  // });
+  //
+  // document.addEventListener("astro:after-preparation", () => {
+  //   console.log("astro:after-preparation");
+  // });
+  //
+  // document.addEventListener("astro:before-swap", () => {
+  //   console.log("astro:before-swap");
+  // });
+  //
+  // document.addEventListener("astro:after-swap", () => {
+  //   console.log("astro:after-swap");
+  // });
+  //
+  // document.addEventListener("astro:page-load", () => {
+  //   console.log("Hola");
+  // });
+
   // Se envuelve todo en un addEventListener para que se ejecute después de la carga
   // si no cada que doy click en el botón no me trae los datos nuevos solo la primera vez que ingreso a la pantalla, esto debido a ViewTransition
-  document.addEventListener("astro:page-load", () => {
+
+  const handlePageload = () => {
     const btnFavorite = document.querySelector(
       "#btn-favorite",
     ) as HTMLButtonElement;
@@ -79,7 +101,9 @@ en el navegador y no en el servidor. -->
         JSON.stringify({ name, id }, null, 2),
       );
     });
-  });
+  };
+
+  document.addEventListener("astro:page-load", handlePageload);
 </script>
 
 <style>
