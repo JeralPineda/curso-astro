@@ -2,7 +2,10 @@
 import BlogPost from "@/components/BlogPost.astro";
 import { siteConfig } from "@/config/site-config";
 import MainLayout from "@/layouts/MainLayout.astro";
-import "@/styles/global.css";
+
+const posts = Object.values(
+  await import.meta.glob("./posts/*.{md,mdx}", { eager: true }),
+);
 ---
 
 <MainLayout title="Jeral's Blog">
@@ -13,7 +16,7 @@ import "@/styles/global.css";
       </h1>
 
       <div class="mt-8 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
-        <BlogPost />
+        {posts.map((post: any) => <BlogPost {...post} />)}
       </div>
     </div>
   </section>
