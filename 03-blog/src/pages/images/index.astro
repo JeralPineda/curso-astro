@@ -3,6 +3,7 @@ import MainLayout from "@/layouts/MainLayout.astro";
 import { Image } from "astro:assets";
 
 import post05 from "@/assets/images/post-05.png";
+import { Picture } from "astro:assets";
 ---
 
 <MainLayout title="Imagenes">
@@ -11,7 +12,7 @@ import post05 from "@/assets/images/post-05.png";
   <!-- loading="eager" => Carga la imagen de forma inmediata -->
   <img
     loading="eager"
-    src="/assets/images/post-05.png"
+    src="/assets/images/post-03.png"
     alt="post-05"
     width="250"
     height="250"
@@ -26,6 +27,46 @@ import post05 from "@/assets/images/post-05.png";
 
   <!-- Optimizando imagen usando Image de Astro, las imaginas deben estar en la carpeta ./src -->
   <Image src={post05} alt="post-05" width="250" height="250" />
+  <Image
+    src={post05}
+    style={{
+      width: "250px",
+      height: "250px",
+    }}
+    alt="post-05"
+    width="500"
+    height="500"
+  />
+
+  <h3>Quality Low</h3>
+  <Image src={post05} quality="low" alt="post-05" width="250" height="250" />
+
+  <h3>Quality High</h3>
+  <Image src={post05} quality="high" alt="post-05" width="250" height="250" />
+
+  <h3>Formatos</h3>
+  <Image src={post05} format="avif" alt="post-05" width="250" height="250" />
+
+  <h3>Picture</h3>
+  <!-- Picture crea un listado de imágenes con diferentes formatos y depende de que formato soporte el navegador ese formato se carga -->
+  <!-- formats={["webp", "avif", "jpeg", "png"]} -->
+
+  <!-- Con widths igual se crea un listado con esas dimensiones, (post05.width) width de la imagen -->
+  <!-- widths={[240, 540, 720, post05.width]} -->
+
+  <!-- Con sizes se crea un listado de tamaños y dependiendo del tamaño de la pantalla (max-width) se carga el tamaño correspondiente  -->
+  <!-- sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${post05.width}px`} -->
+
+  <!-- width={post05.width / 2} -->
+  <!-- densities={[1.5, 2]} -->
+
+  <!-- <Picture -->
+  <!--   src={post05} -->
+  <!--   alt="post-05" -->
+  <!--   width="250" -->
+  <!--   height="250" -->
+  <!-- /> -->
+  <Picture src={post05} alt="post-05" />
 
   <!-- loading="lazy" => No carga la imagen hasta que se vea -->
   <img
@@ -36,3 +77,11 @@ import post05 from "@/assets/images/post-05.png";
     height="250"
   />
 </MainLayout>
+
+<style>
+  @reference "tailwindcss";
+
+  h3 {
+    @apply my-5;
+  }
+</style>
