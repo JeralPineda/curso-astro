@@ -1,5 +1,5 @@
 ---
-import "@/styles/global.css";
+import "@/styles/blog.css";
 import { ClientRouter } from "astro:transitions";
 
 const { frontmatter } = Astro.props;
@@ -17,42 +17,10 @@ const { frontmatter } = Astro.props;
     <ClientRouter />
   </head>
   <body class="bg-gray-900 text-slate-100">
-    <a href="/">Regresar</a>
+    <a href="/" id="btn-back">Regresar</a>
 
     <main class="m-auto mb-10 max-w-5xl p-2">
       <slot />
     </main>
   </body>
 </html>
-
-<style>
-  @reference "tailwindcss";
-
-  html {
-    @apply bg-gray-900 px-10;
-  }
-
-  body {
-    @apply mt-10;
-  }
-
-  h1 {
-    @apply my-5 text-3xl text-white;
-  }
-
-  h2 {
-    @apply my-5 text-2xl text-blue-500;
-  }
-
-  h3 {
-    @apply my-5 text-xl text-white;
-  }
-
-  p {
-    @apply my-5 text-white;
-  }
-
-  a {
-    @apply text-blue-500 hover:underline;
-  }
-</style>

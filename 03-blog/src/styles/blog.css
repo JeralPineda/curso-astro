@@ -1,1 +1,30 @@
+@import "tailwindcss";
 
+html {
+  @apply bg-gray-900 px-10;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply mt-10;
+}
+
+h1 {
+  @apply my-5 text-3xl text-white;
+}
+
+h2 {
+  @apply my-5 text-2xl text-blue-500;
+}
+
+h3 {
+  @apply my-5 text-xl text-white;
+}
+
+p {
+  @apply my-5 text-white;
+}
+
+a {
+  @apply text-blue-500 hover:underline;
+}
