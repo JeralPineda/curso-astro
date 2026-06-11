@@ -1,23 +1,29 @@
 ---
-import { Formatter } from "@/utils/formatter";
+import type { CollectionEntry } from 'astro:content';
+import { Formatter } from '@/utils/formatter';
 
-const { frontmatter, url } = Astro.props;
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post} = Astro.props;
+const { title, description, image, date, } = post.data; 
 ---
 
 <div class="lg:flex">
   <img
     class="h-56 w-full rounded-lg object-cover lg:w-64"
-    src={frontmatter.image}
-    alt={frontmatter.title}
+    src={image}
+    alt={title}
   />
 
   <div class="flex flex-col justify-between py-6 lg:mx-6">
-    <a href={url} class="text-xl font-semibold text-slate-100 hover:underline">
-      {frontmatter.description}
+    <a href={`/posts/${post.id}`} class="text-xl font-semibold text-slate-100 hover:underline">
+      {description}
     </a>
 
     <span class="text-sm text-gray-300"
-      >{Formatter.formatDate(frontmatter.date)}</span
+      >{Formatter.formatDate(date)}</span
     >
   </div>
 </div>
