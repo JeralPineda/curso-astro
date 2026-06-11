@@ -1,5 +1,6 @@
 ---
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -11,12 +12,23 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+console.log("🚀 [...slug].astro -> #15 ~ post:", JSON.stringify(post, null, 2));
 const { Content, headings } = await render(post);
 ---
 
 <BlogLayout frontmatter={post.data}>
   <h1 class="mb-0 text-xs text-gray-500">{post.data.title}</h1>
   <h4 class="text-md mb-0 text-gray-400">{post.data.author}</h4>
+
+  <!-- Agregar imagen width(600) y height(220) -->
+  <Image
+    src={post.data.image}
+    alt={post.data.title}
+    width={600}
+    height={220}
+    class="my-5 h-[250px] w-full rounded-md object-cover"
+    transition:name={`${post.id}-image`}
+  />
 
   <h3>Tabla de contenidos</h3>
   <ol>
@@ -37,4 +49,3 @@ const { Content, headings } = await render(post);
     <a href="#btn-back">Ir al inicio</a>
   </div>
 </BlogLayout>
-
