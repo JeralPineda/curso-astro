@@ -21,6 +21,8 @@ const blog = defineCollection({
 
       // Relación
       tags: z.array(z.string()),
+
+      isDraft: z.boolean().default(false),
     }),
 });
 
