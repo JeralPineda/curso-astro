@@ -33,7 +33,7 @@ const author = await getEntry(post.data.author);
     />
 
     <div class="ml-5 flex flex-col">
-      <a href="#">{author.data.name}</a>
+      <a href={`/blog/${post.data.author.id}`}>{author.data.name}</a>
       <span class="text-xs text-gray-200">
         {Formatter.formatDate(post.data.date)}
       </span>

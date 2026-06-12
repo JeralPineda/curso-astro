@@ -1,0 +1,55 @@
+---
+import BlogPost from "@/components/BlogPost.astro";
+import { siteConfig } from "@/config/site-config";
+import MainLayout from "@/layouts/MainLayout.astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  // const authors = await getCollection("authors");
+  // const posts = await getCollection("blog");
+  const [authors, posts] = await Promise.all([
+    getCollection("author"),
+    getCollection("blog"),
+  ]);
+
+  return authors.map((author) => ({
+    params: { author: author.id },
+    props: {
+      blogPosts: posts.filter((post) => post.data.author.id === author.id),
+      author: author.data,
+    },
+  }));
+}
+
+const { blogPosts, author } = Astro.props;
+---
+
+<MainLayout title="">
+  <section class="bg-gray-900">
+    <div class="container mx-auto px-6 py-10">
+      <h1 class="text-3xl font-semibold text-white capitalize lg:text-4xl">
+        {siteConfig.title}
+      </h1>
+
+      <div class="text-md mt-2 mb-0 flex flex-row text-gray-400">
+        <Image
+          class="rounded-full"
+          src={author.avatar}
+          alt={author.name}
+          width={50}
+          height={50}
+        />
+
+        <div class="ml-5 flex flex-col">
+          <a class="link">{author.name}</a>
+          <span>Listado de todos mis posts</span>
+        </div>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
+        {blogPosts.map((post) => <BlogPost post={post} />)}
+      </div>
+    </div>
+  </section>
+</MainLayout>
