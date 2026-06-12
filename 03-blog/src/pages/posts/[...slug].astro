@@ -12,6 +12,8 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+console.log("🚀 [...slug].astro -> #15 ~ post:", JSON.stringify(post, null, 2));
+
 const { Content, headings } = await render(post);
 ---
 

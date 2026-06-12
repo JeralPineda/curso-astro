@@ -1,7 +1,7 @@
 // Importa el cargador glob
 import { glob } from "astro/loaders";
 // Importa utilidades de `astro:content` y `astro/zod`
-import { defineCollection } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { z } from "astro/zod";
 
 // Define un `loader` y un `schema` para cada colección
@@ -17,12 +17,21 @@ const blog = defineCollection({
       // }),
 
       // Relación
-      author: z.string(),
+      author: reference("author"),
 
       // Relación
       tags: z.array(z.string()),
     }),
 });
 
+const author = defineCollection({
+  loader: glob({ pattern: "**/*.{yml, yaml}", base: "./src/author" }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      avatar: image(),
+    }),
+});
+
 // Exporta un solo objeto `collections` para registrar tus colecciones
-export const collections = { blog };
+export const collections = { blog, author };
