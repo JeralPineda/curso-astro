@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.link {
+  @apply cursor-pointer text-blue-500 hover:underline;
+}

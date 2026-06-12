@@ -10,9 +10,13 @@ const allPosts = await getCollection("blog");
 <MainLayout title="Jeral's Blog">
   <section class="bg-gray-900">
     <div class="container mx-auto px-6 py-10">
-      <h1 class="text-3xl font-semibold text-slate-100 capitalize lg:text-4xl">
+      <h1
+        class="mb-5 text-3xl font-semibold text-slate-100 capitalize lg:text-4xl"
+      >
         {siteConfig.title}
       </h1>
+
+      <a class="link" href="/blog/1">Blog paginado</a>
 
       <div class="mt-8 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
         {allPosts.map((post: any) => <BlogPost post={post} />)}

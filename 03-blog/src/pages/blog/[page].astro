@@ -1,0 +1,62 @@
+---
+import BlogPost from "@/components/BlogPost.astro";
+import MainLayout from "@/layouts/MainLayout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const blogPosts = await getCollection("blog");
+
+  return paginate(blogPosts, { pageSize: 2 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainLayout title="Blog">
+  <div class="mx-auto py-10">
+    <h1 class="text-3xl font-semibold text-white capitalize lg:text-4xl">
+      Fernando's Blog paginado
+    </h1>
+  </div>
+
+  <a class="link" href="/">Regresar</a>
+
+  <section class="bg-gray-900" aria-label="Entradas de blog">
+    <div class="mt-8 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
+      {page.data.map((post) => <BlogPost post={post} />)}
+    </div>
+  </section>
+
+  <section aria-label="Controles" class="my-10 mt-10 flex justify-between">
+    <!--   page .. ?? prev   -->
+    <a
+      class="btn"
+      href={page.url.prev}
+      class:list={{
+        disabled: !page.url.prev,
+      }}>Anteriores</a
+    >
+
+    <!--   page .. ?? next   -->
+    <a
+      class="btn"
+      href={page.url.next}
+      class:list={{
+        disabled: !page.url.next,
+      }}>Siguientes</a
+    >
+  </section>
+</MainLayout>
+
+<style>
+  @reference "tailwindcss";
+
+  .btn {
+    @apply cursor-pointer rounded bg-blue-500 p-2 text-white hover:bg-blue-600;
+  }
+
+  .disabled {
+    @apply bg-gray-600 hover:bg-gray-600;
+  }
+</style>
