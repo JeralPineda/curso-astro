@@ -1,17 +1,12 @@
 import type { APIRoute } from "astro";
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 export const GET: APIRoute = async ({ params, request }) => {
   const url = new URL(request.url);
   const slug = url.searchParams.get("slug");
 
   if (slug) {
-    const postFiltered = await getCollection("blog", ({ data }) =>
-      data.title.toLowerCase().includes(slug.toLowerCase()),
-    );
-    // puede ser undefined si no existe
-    // esto para que llegue al 404 porque siempre devuelve un array vació o con 1 elemento.
-    const post = postFiltered[0];
+    const post = await getEntry("blog", slug);
 
     if (post) {
       return new Response(JSON.stringify(post), {
