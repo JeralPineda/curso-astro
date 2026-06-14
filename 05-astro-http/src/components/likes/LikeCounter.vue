@@ -6,10 +6,13 @@
   <button v-else-if="likeCount === 0" @click="likePost">Like this post</button>
   <button v-else @click="likePost">Likes <span>{{ likeCount }}</span></button>
 
+  {{likeClicks}}
+
 </template>
 
 <script lang="ts" setup>
-  import { ref } from "vue";
+  import { ref, watch } from "vue";
+  import confetti from "canvas-confetti";
 
   interface Props {
    postId: string
@@ -21,10 +24,32 @@
   const likeClicks = ref(0);
   const isLoading = ref(true);
 
-  console.log(props.postId);
+  watch(likeCount, ( ) => {
+    fetch(`/api/posts/likes/${props.postId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ likes: likeClicks.value })
+    });
+
+    // Resetear valores
+    likeClicks.value = 0;
+  });
+
 
   const likePost = () => {
-    console.log("+1 like");
+    likeCount.value++;
+    likeClicks.value++;
+    
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: {
+        x: Math.random(),
+        y: Math.random()
+      }
+    });
   };
 
   const getcurrentLikes = async () => {

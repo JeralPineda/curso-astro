@@ -29,6 +29,9 @@ importers:
       astro:
         specifier: ^6.4.6
         version: 6.4.6(@types/node@24.13.2)(rollup@4.61.1)
+      canvas-confetti:
+        specifier: ^1.9.4
+        version: 1.9.4
       sharp:
         specifier: ^0.34.3
         version: 0.34.5
@@ -1033,6 +1036,9 @@ packages:
 
   caniuse-lite@1.0.30001799:
     resolution: {integrity: sha512-hG1bReV+OUU+MOqK4t/ZWI0tZOyz3rqS9XuhOUz1cIcbwBKjOyJEJuw9ER5JuNyqxNk8u/JUVbGibBOL1yrjFw==}
+
+  canvas-confetti@1.9.4:
+    resolution: {integrity: sha512-yxQbJkAVrFXWNbTUjPqjF7G+g6pDotOUHGbkZq2NELZUMDpiJ85rIEazVb8GTaAptNW2miJAXbs1BtioA251Pw==}
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -3479,6 +3485,8 @@ snapshots:
       run-applescript: 7.1.0
 
   caniuse-lite@1.0.30001799: {}
+
+  canvas-confetti@1.9.4: {}
 
   ccount@2.0.1: {}
 
