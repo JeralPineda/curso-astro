@@ -24,7 +24,7 @@ export const prerender = true;
       height: "50px",
     }}
   >
-    <LikeCounter client:only="vue" />
+    <LikeCounter postId={post.id} client:only="vue" />
   </div>
   <Content />
 </BlogPost>
