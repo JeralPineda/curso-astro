@@ -1,0 +1,47 @@
+---
+import "@/styles/global.css";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Auth</title>
+  </head>
+  <body>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <div
+      class="relative bg-cover bg-center bg-no-repeat"
+      style="background-image: url(https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1951&q=80);"
+    >
+      <div
+        class="absolute inset-0 z-0 bg-gradient-to-b from-green-500 to-green-400 opacity-75"
+      >
+      </div>
+
+      <div class="mx-0 min-h-screen justify-center sm:flex sm:flex-row">
+        <div
+          class="z-10 flex flex-col self-center p-10 sm:max-w-5xl xl:max-w-2xl"
+        >
+          <div class="hidden flex-col self-start text-white lg:flex">
+            <img src="" class="mb-3" />
+            <h1 class="mb-3 text-5xl font-bold">Hi ? Welcome Back Aji</h1>
+            <p class="pr-3">
+              Lorem ipsum is placeholder text commonly used in the graphic,
+              print, and publishing industries for previewing layouts and visual
+              mockups
+            </p>
+          </div>
+        </div>
+
+        <slot />
+      </div>
+    </div>
+  </body>
+</html>
