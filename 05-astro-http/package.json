@@ -8,9 +8,10 @@
   "scripts": {
     "dev": "astro dev",
     "dev:remote": "astro dev --remote",
-    "build": "astro build --remote",
+    "build": "npm run db:push && astro build --remote",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "db:push": "astro db push --remote"
   },
   "dependencies": {
     "@astrojs/db": "^0.21.3",
