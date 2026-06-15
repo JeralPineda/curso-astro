@@ -6,13 +6,12 @@
   <button v-else-if="likeCount === 0" @click="likePost">Like this post</button>
   <button v-else @click="likePost">Likes <span>{{ likeCount }}</span></button>
 
-  {{likeClicks}}
-
 </template>
 
 <script lang="ts" setup>
   import { ref, watch } from "vue";
   import confetti from "canvas-confetti";
+  import debounce from "lodash.debounce";
 
   interface Props {
    postId: string
@@ -24,7 +23,7 @@
   const likeClicks = ref(0);
   const isLoading = ref(true);
 
-  watch(likeCount, ( ) => {
+  watch(likeCount, debounce(( ) => {
     fetch(`/api/posts/likes/${props.postId}`, {
       method: "PUT",
       headers: {
@@ -35,7 +34,7 @@
 
     // Resetear valores
     likeClicks.value = 0;
-  });
+  }, 500));
 
 
   const likePost = () => {
