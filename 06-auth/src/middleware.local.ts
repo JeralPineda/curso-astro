@@ -1,3 +1,6 @@
+// No funciona por el nombre del archivo
+// Demostración
+
 import type { MiddlewareNext } from "astro";
 import { defineMiddleware } from "astro:middleware";
 
