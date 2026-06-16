@@ -3,7 +3,6 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
 
 const email = Astro.cookies.get("email")?.value ?? "";
 const rememberMe = !!email;
-console.log("🚀 register.astro -> #5 ~ email:", email);
 ---
 
 <AuthLayout>
@@ -102,6 +101,7 @@ console.log("🚀 register.astro -> #5 ~ email:", email);
 
 <script>
   import { actions } from "astro:actions";
+  import Swal from "sweetalert2";
 
   const form = document.querySelector("form") as HTMLFormElement;
   const btnSubmit = document.querySelector("#btn-submit") as HTMLButtonElement;
@@ -115,9 +115,15 @@ console.log("🚀 register.astro -> #5 ~ email:", email);
     const { error } = await actions.registerUser(formData);
 
     if (error) {
-      console.log("🚀 register.astro -> #109 ~ error:", error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Credenciales incorrectas",
+        text: error.message,
+      });
+      btnSubmit.removeAttribute("disabled");
+      return;
     }
 
-    btnSubmit.removeAttribute("disabled");
+    window.location.replace("/protected");
   });
 </script>
