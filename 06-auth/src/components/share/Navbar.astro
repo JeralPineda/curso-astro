@@ -15,7 +15,7 @@
       <li class="font-semibold text-gray-700">
         <a href="/login">Ingresar</a>
       </li>
-      <li class="font-semibold text-gray-700">
+      <li id="logout" class="font-semibold text-gray-700">
         <a href="#">Salir</a>
       </li>
       <li>
@@ -73,3 +73,14 @@
     </ul>
   </div>
 </nav>
+
+<script>
+  import { actions } from "astro:actions";
+
+  const logoutElement = document.querySelector("#logout") as HTMLLIElement;
+
+  logoutElement?.addEventListener("click", async () => {
+    await actions.logout();
+    window.location.href = "/login";
+  });
+</script>
