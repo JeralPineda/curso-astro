@@ -10,7 +10,7 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
         <p class="text-gray-500">Please sign in to your account.</p>
       </div>
 
-      <div class="space-y-5">
+      <form class="space-y-5">
         <div class="space-y-2">
           <label class="text-sm font-medium tracking-wide text-gray-700"
             >Nombre</label
@@ -18,6 +18,7 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
           <input
             class="w-full rounded-lg border border-gray-300 px-4 py-2 text-base focus:border-green-400 focus:outline-none"
             type="text"
+            name="name"
             placeholder="Nombre"
           />
         </div>
@@ -29,6 +30,7 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
           <input
             class="w-full rounded-lg border border-gray-300 px-4 py-2 text-base focus:border-green-400 focus:outline-none"
             type="email"
+            name="email"
             placeholder="mail@gmail.com"
           />
         </div>
@@ -40,6 +42,7 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
           <input
             class="w-full content-center rounded-lg border border-gray-300 px-4 py-2 text-base focus:border-green-400 focus:outline-none"
             type="password"
+            name="password"
             placeholder="Enter your password"
           />
         </div>
@@ -66,13 +69,14 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
 
         <div>
           <button
+            id="btn-submit"
             type="submit"
-            class="flex w-full cursor-pointer justify-center rounded-full bg-green-400 p-3 font-semibold tracking-wide text-gray-100 shadow-lg transition duration-500 ease-in hover:bg-green-500"
+            class="flex w-full cursor-pointer justify-center rounded-full bg-green-400 p-3 font-semibold tracking-wide text-gray-100 shadow-lg transition duration-500 ease-in hover:bg-green-500 disabled:bg-gray-300"
           >
-            Sign in
+            Ingresar
           </button>
         </div>
-      </div>
+      </form>
 
       <div class="pt-5 text-center text-xs text-gray-400">
         <span>
@@ -89,3 +93,25 @@ import AuthLayout from "@/layouts/AuthLayout.astro";
     </div>
   </div>
 </AuthLayout>
+
+<script>
+  import { actions } from "astro:actions";
+
+  const form = document.querySelector("form") as HTMLFormElement;
+  const btnSubmit = document.querySelector("#btn-submit") as HTMLButtonElement;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    btnSubmit.setAttribute("disabled", "disabled");
+
+    const formData = new FormData(form);
+
+    const { error } = await actions.registerUser(formData);
+
+    if (error) {
+      console.log("🚀 register.astro -> #109 ~ error:", error.message);
+    }
+
+    btnSubmit.removeAttribute("disabled");
+  });
+</script>
