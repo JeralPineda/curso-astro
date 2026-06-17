@@ -8,6 +8,7 @@ if (!firebaseUser) {
   return Astro.redirect("/login");
 }
 
+await firebaseUser?.reload(); // Para obtener la información actualizada del usuario
 const { displayName, email, emailVerified, photoURL } = firebaseUser;
 
 const name = displayName ?? "No display name";
