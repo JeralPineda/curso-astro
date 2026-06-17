@@ -7,7 +7,7 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB_ya6mYMLJBYgWpjvE5LyaIjLtaMT8vok",
+  apiKey: import.meta.env.FIREBASE_API_KEY,
   authDomain: "astro-authentication-f8eee.firebaseapp.com",
   projectId: "astro-authentication-f8eee",
   storageBucket: "astro-authentication-f8eee.firebasestorage.app",
