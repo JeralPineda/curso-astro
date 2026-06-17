@@ -1,9 +1,9 @@
-// Carga las variables de .env ANTES de importar el cliente de la base de datos.
 import "dotenv/config";
 import { client, db } from "@/db";
 import { productImages, products, roles, users } from "@/db/schema";
-import bcrypt from "bcryptjs";
 import { seedProducts } from "@/db/seed-data";
+import { eq } from "drizzle-orm";
+import { auth } from "@/lib/auth";
 
 async function seed() {
   console.log("🌱 Sembrando datos...");
@@ -13,24 +13,37 @@ async function seed() {
     { id: "user", name: "Usuario de sistema" },
   ];
 
-  const johnDoe = {
-    id: crypto.randomUUID(),
-    name: "John Doe",
-    email: "john.doe@google.com",
-    password: bcrypt.hashSync("123456"),
-    role: "admin",
-  };
-
-  const janeDoe = {
-    id: crypto.randomUUID(),
-    name: "Jane Doe",
-    email: "jane.doe@google.com",
-    password: bcrypt.hashSync("123456"),
-    role: "user",
-  };
-
   await db.insert(roles).values(rolesData);
-  await db.insert(users).values([johnDoe, janeDoe]);
+
+  await auth.api.signUpEmail({
+    body: {
+      name: "John Doe",
+      email: "john.doe@google.com",
+      password: "123456789",
+    },
+  });
+
+  await auth.api.signUpEmail({
+    body: {
+      name: "Jane Doe",
+      email: "jane.doe@google.com",
+      password: "123456789",
+    },
+  });
+
+  await db
+    .update(users)
+    .set({ role: "admin" })
+    .where(eq(users.email, "john.doe@google.com"));
+
+  const [johnDoe] = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, "john.doe@google.com"));
+
+  if (!johnDoe) {
+    throw new Error("No se encontró John Doe después del signup");
+  }
 
   for (const p of seedProducts) {
     const product = {

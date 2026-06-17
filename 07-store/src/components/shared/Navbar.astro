@@ -4,10 +4,10 @@ const { isLoggedIn, isAdmin } = Astro.locals;
 
 <!-- component -->
 <nav
-  class="flex justify-between px-20 py-10 items-center fixed top-0 w-full z-10 h-20"
+  class="fixed top-0 z-10 flex h-20 w-full items-center justify-between px-20 py-10"
   style="background-color: #F9F9F9;"
 >
-  <h1 class="text-xl text-gray-800 font-bold">
+  <h1 class="text-xl font-bold text-gray-800">
     <a href="/">AstroStore</a>
   </h1>
   <div class="flex items-center">
@@ -39,12 +39,12 @@ const { isLoggedIn, isAdmin } = Astro.locals;
 </nav>
 
 <script>
-  const { signOut } = await import('auth-astro/client');
+  import { authClient } from "@/lib/auth-client";
 
-  const logoutElem = document.querySelector('#logout') as HTMLLIElement;
-
-  logoutElem?.addEventListener('click', async () => {
-    await signOut();
-    window.location.href = '/';
+  const logoutElem = document.querySelector("#logout") as HTMLLIElement;
+  logoutElem?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    await authClient.signOut();
+    window.location.href = "/";
   });
 </script>
