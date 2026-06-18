@@ -68,6 +68,7 @@ export const products = sqliteTable("products", {
   slug: text().notNull().unique(),
   stock: integer().notNull(),
   tags: text({ mode: "json" }).$type<string[]>().notNull(),
+  images: text({ mode: "json" }).$type<string[]>().notNull(), // solo si no están en otra tabla
   title: text().notNull(),
   type: text().notNull(),
   userId: text("user_id")
@@ -75,10 +76,20 @@ export const products = sqliteTable("products", {
     .references(() => users.id),
 });
 
-export const productImages = sqliteTable("product_images", {
-  id: text().primaryKey(),
-  productId: text("product_id")
-    .notNull()
-    .references(() => products.id),
-  image: text().notNull(),
-});
+// Ejemplo de como seria si las imágenes estuvieran en otra tabla
+// export const productImages = sqliteTable("product_images", {
+//   id: text().primaryKey(),
+//   productId: text("product_id")
+//     .notNull()
+//     .references(() => products.id),
+//   image: text().notNull(),
+// });
+//
+//
+export type Role = typeof roles.$inferSelect;
+export type User = typeof users.$inferSelect;
+export type Session = typeof sessions.$inferSelect;
+export type Account = typeof accounts.$inferSelect;
+export type Verification = typeof verifications.$inferSelect;
+export type Product = typeof products.$inferSelect;
+// export type ProductImage = typeof productImages.$inferSelect;

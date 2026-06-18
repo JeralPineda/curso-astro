@@ -15,13 +15,6 @@ CREATE TABLE `accounts` (
 	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `product_images` (
-	`id` text PRIMARY KEY NOT NULL,
-	`product_id` text NOT NULL,
-	`image` text NOT NULL,
-	FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action
-);
---> statement-breakpoint
 CREATE TABLE `products` (
 	`id` text PRIMARY KEY NOT NULL,
 	`description` text NOT NULL,
@@ -31,6 +24,7 @@ CREATE TABLE `products` (
 	`slug` text NOT NULL,
 	`stock` integer NOT NULL,
 	`tags` text NOT NULL,
+	`images` text NOT NULL,
 	`title` text NOT NULL,
 	`type` text NOT NULL,
 	`user_id` text NOT NULL,
