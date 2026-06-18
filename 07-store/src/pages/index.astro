@@ -1,5 +1,12 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
+import { getProductsByPage } from "@/services/products/get-products-by-page";
+
+const { products } = await getProductsByPage();
+console.log(
+  "🚀 index.astro -> #20 ~ products:",
+  JSON.stringify(products, null, 2),
+);
 
 const { user } = Astro.locals;
 ---
@@ -12,3 +19,13 @@ const { user } = Astro.locals;
     </code>
   </pre>
 </MainLayout>
+
+<script>
+  // import { actions } from "astro:actions";
+  //
+  // const { data } = await actions.getProductsByPage({ page: 1, limit: 12 });
+  // console.log(
+  //   "🚀 index.astro -> #20 ~ products:",
+  //   JSON.stringify(data, null, 2),
+  // );
+</script>
