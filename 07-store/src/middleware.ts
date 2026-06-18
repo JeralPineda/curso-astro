@@ -19,7 +19,7 @@ export const onRequest = defineMiddleware(
     if (!locals.isAdmin && url.pathname.startsWith("/dashboard")) {
       return redirect("/");
     }
-    //
+
     if (isLoggedIn && notAuthenticatedRoutes.includes(url.pathname)) {
       return redirect("/");
     }
