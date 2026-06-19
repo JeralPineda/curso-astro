@@ -1,23 +1,17 @@
 ---
+import { ProductList } from "@/components/products/ProductList";
 import MainLayout from "@/layouts/MainLayout.astro";
 import { getProductsByPage } from "@/services/products/get-products-by-page";
 
 const { products } = await getProductsByPage();
-console.log(
-  "🚀 index.astro -> #20 ~ products:",
-  JSON.stringify(products, null, 2),
-);
 
 const { user } = Astro.locals;
 ---
 
 <MainLayout>
-  <h1 class="text-3xl">Home Page</h1>
-  <pre>
-    <code>
-      {user && JSON.stringify(user, null, 2)}
-    </code>
-  </pre>
+  <h1 class="text-3xl">Listado de Productos</h1>
+
+  <ProductList products={products} />
 </MainLayout>
 
 <script>

@@ -1,11 +1,11 @@
 // src/lib/products.ts
 
 import { db } from "@/db";
-import { productImages, products, type Product } from "@/db/schema";
+import { productImages, products, type ProductWithImages } from "@/db/schema";
 import { count, inArray } from "drizzle-orm";
 
 type ProductsPageResult = {
-  products: Product[];
+  products: ProductWithImages[];
   totalPages: number;
 };
 

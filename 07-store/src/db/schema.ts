@@ -90,3 +90,5 @@ export type Account = typeof accounts.$inferSelect;
 export type Verification = typeof verifications.$inferSelect;
 export type Product = typeof products.$inferSelect;
 export type ProductImage = typeof productImages.$inferSelect;
+
+export type ProductWithImages = Product & { images: string[] };
