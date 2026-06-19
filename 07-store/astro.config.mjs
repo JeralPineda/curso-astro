@@ -23,6 +23,10 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
+      PUBLIC_IMAGE_URL: envField.string({
+        context: "client",
+        access: "public",
+      }),
     },
   },
   vite: {
