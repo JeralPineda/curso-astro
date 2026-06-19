@@ -2,6 +2,7 @@ import "dotenv/config";
 import { client, db } from "@/db";
 import {
   accounts,
+  productImages,
   products,
   roles,
   sessions,
@@ -15,7 +16,7 @@ import { auth } from "@/lib/auth";
 async function reset() {
   console.log("🧹 Limpiando datos previos...");
   // Borrar de hijo -> padre, respetando las foreign keys
-  // await db.delete(productImages); // Descomentar si se agrega la tabla
+  await db.delete(productImages);
   await db.delete(products);
   await db.delete(sessions);
   await db.delete(accounts);
@@ -81,27 +82,24 @@ async function seed() {
     slug: p.slug,
     stock: p.stock,
     tags: p.tags,
-    images: p.images,
     title: p.title,
     type: p.type,
     userId: johnDoe.id,
   }));
 
-  // Si se agrega la tabla de imagenes
-  // const imageRows = seedProducts.flatMap((p, i) =>
-  //   p.images.map((img) => ({
-  //     id: crypto.randomUUID(),
-  //     image: img,
-  //     productId: productRows[i].id,
-  //   })),
-  // );
+  const imageRows = seedProducts.flatMap((p, i) =>
+    p.images.map((img) => ({
+      id: crypto.randomUUID(),
+      image: img,
+      productId: productRows[i].id,
+    })),
+  );
 
   await db.insert(products).values(productRows);
 
-  // Si se agrega la tabla de imagenes
-  // if (imageRows.length > 0) {
-  //   await db.insert(productImages).values(imageRows);
-  // }
+  if (imageRows.length > 0) {
+    await db.insert(productImages).values(imageRows);
+  }
 
   console.log("✅ Listo, datos insertados.");
 }

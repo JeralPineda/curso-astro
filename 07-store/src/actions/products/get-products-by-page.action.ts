@@ -34,14 +34,26 @@ export const getProductsByPage = defineAction({
     const offset = (page - 1) * limit;
 
     // 3. Productos de la página actual.
-    const allProducts = await db
-      .select()
-      .from(products)
-      .limit(limit)
-      .offset(offset);
+    const items = await db.select().from(products).limit(limit).offset(offset);
+    const productIds = items.map((p) => p.id);
+
+    // 4. Imágenes de esos productos, limitadas a IMAGES_PER_PRODUCT.
+    const imagesByProduct = await getLimitedImages(
+      productIds,
+      IMAGES_PER_PRODUCT,
+    );
+
+    const productsWithImages = items.map((item) => ({
+      ...item,
+      // sizes y tags YA llegan como array gracias a `mode: "json"` en tu
+      // schema (Drizzle los serializa/deserializa solo). No hace falta
+      // hacer .split(',') como en el seed viejo de astro:db, donde sizes
+      // y tags se guardaban como string separado por comas.
+      images: imagesByProduct.get(item.id) ?? [],
+    }));
 
     return {
-      products: allProducts,
+      products: productsWithImages,
       totalPages,
       hasNextPage: page < totalPages,
       hasPrevPage: page > 1,
@@ -50,7 +62,6 @@ export const getProductsByPage = defineAction({
 });
 
 //Si se creara una tabla de productImages
-// const productIds = items.map((p) => p.id);
 //
 // // 4. Imágenes de esos productos, limitadas a IMAGES_PER_PRODUCT.
 // const imagesByProduct = await getLimitedImages(productIds, IMAGES_PER_PRODUCT);
@@ -80,19 +91,19 @@ export const getProductsByPage = defineAction({
  * pocas imágenes por producto (como tu caso, 2 cada uno) la diferencia
  * contra traerlas todas sin límite es prácticamente nula.
  */
-// async function getLimitedImages(productIds: string[], limitPerProduct: number) {
-//   if (productIds.length === 0) return new Map<string, string[]>();
-//
-//   const allImages = await db
-//     .select()
-//     .from(productImages)
-//     .where(inArray(productImages.productId, productIds));
-//
-//   const imagesByProduct = new Map<string, string[]>();
-//   for (const img of allImages) {
-//     const arr = imagesByProduct.get(img.productId) ?? [];
-//     if (arr.length < limitPerProduct) arr.push(img.image);
-//     imagesByProduct.set(img.productId, arr);
-//   }
-//   return imagesByProduct;
-// }
+async function getLimitedImages(productIds: string[], limitPerProduct: number) {
+  if (productIds.length === 0) return new Map<string, string[]>();
+
+  const allImages = await db
+    .select()
+    .from(productImages)
+    .where(inArray(productImages.productId, productIds));
+
+  const imagesByProduct = new Map<string, string[]>();
+  for (const img of allImages) {
+    const arr = imagesByProduct.get(img.productId) ?? [];
+    if (arr.length < limitPerProduct) arr.push(img.image);
+    imagesByProduct.set(img.productId, arr);
+  }
+  return imagesByProduct;
+}
