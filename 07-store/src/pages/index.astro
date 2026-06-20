@@ -1,17 +1,18 @@
 ---
 import { ProductList } from "@/components/products/ProductList";
+import Pagination from "@/components/shared/Pagination.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
 import { getProductsByPage } from "@/services/products/get-products-by-page";
 
-const { products } = await getProductsByPage();
-
-const { user } = Astro.locals;
+const { products, totalPages } = await getProductsByPage();
 ---
 
 <MainLayout>
   <h1 class="text-3xl">Listado de Productos</h1>
 
   <ProductList client:idle products={products} />
+
+  <Pagination totalPages={totalPages} />
 </MainLayout>
 
 <script>
