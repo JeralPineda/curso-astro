@@ -8,7 +8,12 @@ export async function getProductBySlug(slug: string) {
     .from(products)
     .where(eq(products.slug, slug));
 
-  if (!product) return null; // <-- null en vez de throw
+  if (!product) {
+    return {
+      product: null,
+      images: null,
+    };
+  }
 
   const images = await db
     .select()

@@ -1,0 +1,83 @@
+---
+import { getProductBySlug } from "@/actions/products/get-product-by-slug";
+import ProductSlideshow from "@/components/products/ProductSlideshow.astro";
+import MainLayout from "@/layouts/MainLayout.astro";
+
+const { slug } = Astro.params;
+
+const { product, images } = await getProductBySlug(slug ?? "");
+
+if (!product && !images) {
+  return Astro.redirect("/404");
+}
+---
+
+<MainLayout title={product.title} description={product.description}>
+  <!-- image={image} -->
+
+  <h1>{product.title}</h1>
+
+  <div class="grid w-full grid-cols-1 md:grid-cols-3">
+    <ProductSlideshow images={images} />
+
+    <section>
+      <h2 class="text-2xl font-bold">{product.title}</h2>
+      <h2 class="font-bold">${product.price}</h2>
+
+      <h3 class="mt-5">Tallas</h3>
+      <ul class="flex gap-3">
+        {product.sizes.map((size) => <li data-size={size}>{size}</li>)}
+      </ul>
+
+      <h3 class="mt-5">Cantidad</h3>
+      <div>
+        <button class="btn-quantity">-</button>
+        <input type="number" min="1" value="1" />
+        <button class="btn-quantity">+</button>
+      </div>
+
+      <button class="mt-5 w-full bg-blue-500 p-3 text-white"
+        >Añadir al carrito</button
+      >
+
+      <h3 class="mt-10">Descripción</h3>
+      <p>{product.description}</p>
+    </section>
+  </div>
+
+  <input type="hidden" id="product-id" value={product.id} />
+</MainLayout>
+
+<style>
+  @reference "tailwindcss";
+
+  h3 {
+    @apply font-bold;
+  }
+
+  li {
+    @apply cursor-pointer hover:underline;
+  }
+
+  .selected-size {
+    @apply font-bold text-blue-500 underline transition-all;
+  }
+
+  .btn-quantity {
+    @apply w-10 cursor-pointer border border-gray-300 p-2 text-center hover:bg-gray-100;
+  }
+
+  input {
+    @apply w-16 border border-gray-300 p-2 text-center;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
+  }
+</style>

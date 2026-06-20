@@ -1,14 +1,14 @@
 ---
-import Navbar from '@/components/shared/Navbar.astro';
+import Navbar from "@/components/shared/Navbar.astro";
 
-import "@/styles/global.css"
-
+import "@/styles/global.css";
 
 interface Props {
   title?: string;
+  description?: string;
 }
 
-const { title = 'Astro Store' } = Astro.props;
+const { title = "Astro Store" } = Astro.props;
 ---
 
 <html lang="es">
@@ -22,7 +22,7 @@ const { title = 'Astro Store' } = Astro.props;
   <body>
     <Navbar />
 
-    <main class="container m-auto max-w-5xl px-5 mt-20">
+    <main class="container m-auto mt-20 max-w-5xl px-5">
       <slot />
     </main>
   </body>
