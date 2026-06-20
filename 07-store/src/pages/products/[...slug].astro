@@ -48,6 +48,57 @@ if (!product && !images) {
   <input type="hidden" id="product-id" value={product.id} />
 </MainLayout>
 
+<script>
+  const sizeElements = document.querySelectorAll("li");
+
+  sizeElements.forEach((liElement) => {
+    liElement.addEventListener("click", () => {
+      // Remove selected class from all elements
+      sizeElements.forEach((s) => s.classList.remove("selected-size"));
+
+      // Add selected class to clicked element
+      liElement.classList.add("selected-size");
+    });
+  });
+
+  // El primero input que encuentre
+  const quantityInput = document.querySelector("input") as HTMLInputElement;
+  const productIdInput = document.querySelector(
+    "#product-id",
+  ) as HTMLInputElement;
+
+  let quantity = 1;
+
+  const [decrementButton, incrementButton, addToCartButton] =
+    document.querySelectorAll("button");
+
+  incrementButton.addEventListener("click", () => {
+    quantity = Math.min(quantity + 1, 5);
+    quantityInput.value = quantity.toString();
+  });
+
+  decrementButton.addEventListener("click", () => {
+    quantity = Math.max(quantity - 1, 1);
+    quantityInput.value = quantity.toString();
+  });
+
+  addToCartButton.addEventListener("click", () => {
+    const size = document.querySelector(".selected-size")?.textContent;
+
+    if (!size) {
+      return alert("Seleccione una talla.");
+    }
+
+    addToCartButton.disabled = true;
+
+    console.log({
+      id: productIdInput.value,
+      size,
+      quantity,
+    });
+  });
+</script>
+
 <style>
   @reference "tailwindcss";
 
