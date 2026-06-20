@@ -4,7 +4,10 @@ import Pagination from "@/components/shared/Pagination.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
 import { getProductsByPage } from "@/services/products/get-products-by-page";
 
-const { products, totalPages } = await getProductsByPage();
+const searchParams = Astro.url.searchParams;
+const pageParam = Number(searchParams.get("page") ?? 1);
+
+const { products, totalPages } = await getProductsByPage(pageParam);
 ---
 
 <MainLayout>
