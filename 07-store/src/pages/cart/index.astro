@@ -26,6 +26,32 @@ const total = products.reduce(
       <a href="javascript:history.back()" class="text-blue-500 hover:underline"
         >Regresar</a
       >
+
+      {
+        products.map((product) => (
+          <div class="mt-5 flex gap-5">
+            <img src={product.image} alt={product.title} class="h-20 w-20" />
+
+            <div>
+              <a href={`/products/${product.slug}`} class="hover:underline">
+                {product.title}
+              </a>
+              <p>${product.price}</p>
+              <p>Cantidad: {product.quantity}</p>
+              <p>
+                Talla: <span class="font-bold">{product.size}</span>
+              </p>
+              <button
+                data-id={product.productId}
+                data-size={product.size}
+                class="btn-delete text-blue-500"
+              >
+                Remover
+              </button>
+            </div>
+          </div>
+        ))
+      }
     </div>
 
     <!-- Totales -->

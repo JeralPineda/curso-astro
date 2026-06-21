@@ -31,7 +31,7 @@ export async function loadProductsFromCart(cookies: AstroCookies) {
     return {
       productId: item.productId,
       title,
-      sizeL: item.size,
+      size: item.size,
       quantity: item.quantity,
       image: image.startsWith("http")
         ? image
