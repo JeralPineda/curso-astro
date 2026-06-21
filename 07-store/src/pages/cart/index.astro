@@ -85,3 +85,22 @@ const total = products.reduce(
     </div>
   </section>
 </MainLayout>
+
+<script>
+  import { CartCookiesClient } from "@/utils/cart-cookies";
+
+  const deleteButtons = document.querySelectorAll(".btn-delete");
+
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const target = event.target as HTMLButtonElement;
+      const productId = target.dataset.id ?? "";
+      const size = target.dataset.size ?? "";
+
+      CartCookiesClient.removeItem(productId, size);
+
+      // TODO: temporal, se usara viewTransactions
+      window.location.reload();
+    });
+  });
+</script>
