@@ -50,6 +50,7 @@ if (!product && !images) {
 </MainLayout>
 
 <script>
+  import { itemsInCart } from "@/store/cart.store";
   import { CartCookiesClient } from "@/utils/cart-cookies";
 
   const sizeElements = document.querySelectorAll("li");
@@ -94,14 +95,17 @@ if (!product && !images) {
 
     addToCartButton.disabled = true;
 
-    CartCookiesClient.addItem({
+    const cart = CartCookiesClient.addItem({
       productId: productIdInput.value,
       size,
       quantity,
     });
 
+    itemsInCart.set(cart.length);
+    console.log("🚀 [...slug].astro -> #105 ~ t:", itemsInCart.get());
+
     // TODO: Cambiar luego cuando tengamos los viewTransactions
-    window.location.href = "/cart";
+    // window.location.href = "/cart";
   });
 </script>
 
