@@ -50,6 +50,8 @@ if (!product && !images) {
 </MainLayout>
 
 <script>
+  import { CartCookiesClient } from "@/utils/cart-cookies";
+
   const sizeElements = document.querySelectorAll("li");
 
   sizeElements.forEach((liElement) => {
@@ -92,11 +94,14 @@ if (!product && !images) {
 
     addToCartButton.disabled = true;
 
-    console.log({
-      id: productIdInput.value,
+    CartCookiesClient.addItem({
+      productId: productIdInput.value,
       size,
       quantity,
     });
+
+    // TODO: Cambiar luego cuando tengamos los viewTransactions
+    window.location.href = "/cart";
   });
 </script>
 
