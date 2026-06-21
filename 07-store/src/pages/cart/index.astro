@@ -88,19 +88,24 @@ const total = products.reduce(
 
 <script>
   import { CartCookiesClient } from "@/utils/cart-cookies";
+  import { navigate } from "astro:transitions/client";
 
-  const deleteButtons = document.querySelectorAll(".btn-delete");
+  // Esto por las view transactions
+  document.addEventListener("astro:page-load", () => {
+    const deleteButtons = document.querySelectorAll(".btn-delete");
 
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      const target = event.target as HTMLButtonElement;
-      const productId = target.dataset.id ?? "";
-      const size = target.dataset.size ?? "";
+    deleteButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const target = event.target as HTMLButtonElement;
+        const productId = target.dataset.id ?? "";
+        const size = target.dataset.size ?? "";
 
-      CartCookiesClient.removeItem(productId, size);
+        CartCookiesClient.removeItem(productId, size);
 
-      // TODO: temporal, se usara viewTransactions
-      window.location.reload();
+        // TODO: temporal, se usara viewTransactions
+        // window.location.reload();
+        navigate("/cart");
+      });
     });
   });
 </script>
