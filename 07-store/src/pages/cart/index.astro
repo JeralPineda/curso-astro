@@ -1,11 +1,61 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
+import { loadProductsFromCart } from "@/services/cart/load-products-from-cart";
+import { Formatter } from "@/utils/formatter";
 
-const cart = Astro.cookies.get("cart");
+let products = [];
+
+try {
+  products = await loadProductsFromCart(Astro.cookies);
+} catch (error) {
+  return Astro.redirect("/");
+}
+
+const total = products.reduce(
+  (acc, product) => acc + product.price * product.quantity,
+  0,
+);
 ---
 
 <MainLayout title="Carrito de compras">
   <h1>Carrito</h1>
+  <section class="grid grid-cols-1 sm:grid-cols-2">
+    <!-- Productos -->
+    <div class="order-2 sm:order-1">
+      <h2>Productos</h2>
+      <a href="javascript:history.back()" class="text-blue-500 hover:underline"
+        >Regresar</a
+      >
+    </div>
 
-  <code>{JSON.stringify(cart, null, 2)}</code>
+    <!-- Totales -->
+    <div class="order-1 h-[330px] rounded-lg bg-black p-6 text-white shadow-lg">
+      <h2 class="mb-4 text-lg font-semibold">Resumen de compra</h2>
+
+      <div class="mb-2 flex justify-between text-gray-400">
+        <span>Envío</span>
+        <span>Gratis</span>
+      </div>
+
+      <div class="mb-4 flex justify-between text-gray-400">
+        <span>SubTotal </span>
+        <span>{Formatter.currency(total)}</span>
+      </div>
+      <div class="mb-4 flex justify-between text-gray-400">
+        <span>Impuesto </span>
+        <span>{Formatter.currency(total * 0.15)}</span>
+      </div>
+
+      <div class="flex justify-between text-xl font-bold">
+        <span>Total</span>
+        <span>{Formatter.currency(total * 1.15)}</span>
+      </div>
+
+      <button
+        class="mt-10 w-full rounded-lg bg-blue-700 py-3 text-gray-300 transition-all hover:bg-gray-600"
+      >
+        PAGAR
+      </button>
+    </div>
+  </section>
 </MainLayout>
