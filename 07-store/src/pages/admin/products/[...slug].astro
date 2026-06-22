@@ -18,6 +18,9 @@ if (!product && !images) {
   <a href="javascript:history.back()" class="text-blue-500">← Volver</a>
 
   <form class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <!-- ID -->
+    <input type="hidden" name="id" type="text" value={product.id} />
+
     <!-- Datos generales -->
     <div class="mt-2">
       <h2 class="text-lg font-semibold">Datos generales</h2>
@@ -263,13 +266,16 @@ if (!product && !images) {
 </MainLayout>
 
 <script>
+import { actions } from "astro:actions";
+import { navigate } from "astro:transitions/client";
+
   document.addEventListener("astro:page-load", () => {
     const form = document.querySelector("form") as HTMLFormElement;
     const sizeButtons = document.querySelectorAll(".btn-size");
 
     if(!form) return;
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async(e) => {
       e.preventDefault();
 
       const selectedSizes = Array.from(sizeButtons)
@@ -280,8 +286,17 @@ if (!product && !images) {
       const formData = new FormData(form);
       formData.set("sizes", selectedSizes);
 
-      const formValues = Object.fromEntries(formData.entries());
-      console.log('🚀 [...slug].astro -> #277 ~ formValues:', JSON.stringify(formValues, null, 2));
+      // console.log('🚀 [...slug].astro -> #286 ~ formData:', Object.fromEntries(formData.entries()));
+
+      const { data, error } = await actions.createUpdateProduct(formData);
+      console.log('🚀 [...slug].astro -> #286 ~ data:', data);
+
+      if(error){
+        return alert(error.message)
+      }
+
+      navigate(`/admin/products/${data.slug}`);
+
     });
   });
 </script>
