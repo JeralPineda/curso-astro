@@ -37,19 +37,19 @@ export const createUpdateProduct = defineAction({
     }
 
     const { id = crypto.randomUUID(), ...rest } = form;
-
     rest.slug = rest.slug.toLowerCase().replaceAll(" ", "_").trim();
+
     const product = {
       id,
       userId: user.id,
       ...rest,
     };
 
-    const result = await db
-      .update(products)
-      .set(product)
-      .where(eq(products.id, id));
-    console.log("update result:", result);
+    if (!form.id) {
+      await db.insert(products).values(product);
+    } else {
+      await db.update(products).set(product).where(eq(products.id, id));
+    }
 
     //Crear
     //Update

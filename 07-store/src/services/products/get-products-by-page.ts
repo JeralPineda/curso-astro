@@ -1,5 +1,3 @@
-// src/lib/products.ts
-
 import { db } from "@/db";
 import { productImages, products, type ProductWithImages } from "@/db/schema";
 import { count, inArray } from "drizzle-orm";
@@ -46,11 +44,7 @@ export async function getProductsByPage(
 
   const productsWithImages = items.map((item) => ({
     ...item,
-    // sizes y tags YA llegan como array gracias a `mode: "json"` en tu
-    // schema (Drizzle los serializa/deserializa solo). No hace falta
-    // hacer .split(',') como en el seed viejo de astro:db, donde sizes
-    // y tags se guardaban como string separado por comas.
-    images: imagesByProduct.get(item.id) ?? [],
+    images: imagesByProduct.get(item.id) ?? ["no-image.png"],
   }));
 
   return {
