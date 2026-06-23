@@ -5,6 +5,15 @@ import { z } from "astro/zod";
 import { defineAction } from "astro:actions";
 import { eq } from "drizzle-orm";
 
+const MAX_FILE_SIZE = 5_000_000; // 5MB
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/svg+xml",
+];
+
 export const createUpdateProduct = defineAction({
   accept: "form",
   input: z.object({
@@ -24,7 +33,21 @@ export const createUpdateProduct = defineAction({
     title: z.string(),
     type: z.string(),
 
-    //TODO: images
+    imageFiles: z
+      .array(
+        z
+          .instanceof(File)
+          .refine((file) => file.size <= MAX_FILE_SIZE, "Max image size is 5MB")
+          .refine(
+            (file) => {
+              if (file.size === 0) return true;
+
+              return ACCEPTED_IMAGE_TYPES.includes(file.type);
+            },
+            `Only supported image files are valid, ${ACCEPTED_IMAGE_TYPES.join(",")}`,
+          ),
+      )
+      .optional(),
   }),
   handler: async (form, { request }) => {
     const session = await auth.api.getSession({
@@ -36,7 +59,7 @@ export const createUpdateProduct = defineAction({
       throw new Error("Unauthorized");
     }
 
-    const { id = crypto.randomUUID(), ...rest } = form;
+    const { id = crypto.randomUUID(), imageFiles, ...rest } = form;
     rest.slug = rest.slug.toLowerCase().replaceAll(" ", "_").trim();
 
     const product = {
@@ -51,9 +74,11 @@ export const createUpdateProduct = defineAction({
       await db.update(products).set(product).where(eq(products.id, id));
     }
 
-    //Crear
-    //Update
     // Insert de imágenes
+    console.log(
+      "🚀 create-update-product.action.ts -> #76 ~ imageFiles:",
+      imageFiles,
+    );
 
     return product;
   },
