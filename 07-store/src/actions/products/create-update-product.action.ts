@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { auth } from "@/lib/auth";
+import { ImageUpload } from "@/utils/image-upload";
 import { z } from "astro/zod";
 import { defineAction } from "astro:actions";
 import { eq } from "drizzle-orm";
@@ -79,6 +80,11 @@ export const createUpdateProduct = defineAction({
       "🚀 create-update-product.action.ts -> #76 ~ imageFiles:",
       imageFiles,
     );
+    imageFiles?.forEach(async (imageFile) => {
+      if (imageFile.size <= 0) return;
+
+      await ImageUpload.upload(imageFile);
+    });
 
     return product;
   },
