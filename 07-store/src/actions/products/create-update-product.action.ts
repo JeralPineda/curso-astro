@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { products } from "@/db/schema";
+import { productImages, products } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { ImageUpload } from "@/utils/image-upload";
 import { z } from "astro/zod";
@@ -76,15 +76,24 @@ export const createUpdateProduct = defineAction({
     }
 
     // Insert de imágenes
-    console.log(
-      "🚀 create-update-product.action.ts -> #76 ~ imageFiles:",
-      imageFiles,
-    );
-    imageFiles?.forEach(async (imageFile) => {
-      if (imageFile.size <= 0) return;
+    if (imageFiles && imageFiles.length > 0 && imageFiles[0].size > 0) {
+      const uploadPromises = imageFiles
+        .filter((file) => file.size > 0)
+        .map(async (file) => {
+          const url = await ImageUpload.upload(file);
+          return {
+            id: crypto.randomUUID(),
+            productId: id,
+            image: url,
+          };
+        });
 
-      await ImageUpload.upload(imageFile);
-    });
+      const newImages = await Promise.all(uploadPromises);
+
+      if (newImages.length > 0) {
+        await db.insert(productImages).values(newImages);
+      }
+    }
 
     return product;
   },

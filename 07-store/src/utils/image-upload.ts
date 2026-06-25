@@ -17,8 +17,6 @@ export class ImageUpload {
       `data:image/${imageType};base64,${base64Image}`,
     );
 
-    console.log("🚀 image-upload.ts -> #20 ~ resp:", resp);
-
-    return "http://mi.sitio.web/abc.png";
+    return resp.secure_url;
   }
 }
