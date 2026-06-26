@@ -318,11 +318,51 @@ if (!product && !images) {
 
         // Actualizar la interfaz
         // Se cambio querySelector por getElementById porque no estaba funcionando.
-        // El problema es que los UUIDs tienen guiones - y querySelector con #id no los acepta como selectores CSS válidos. 
+        // El problema es que los UUIDs tienen guiones - y querySelector con #id no los acepta como selectores CSS válidos.
         // Usa getElementById en su lugar
         // document.querySelector(`#${id}`)?.remove();
         document.getElementById(id)?.remove();
       });
+    });
+
+    // Drag and Drop
+    const lblSelectedFiles = document.querySelector(
+      "#lbl-selected-files",
+    ) as HTMLParagraphElement;
+    const dropZone = document.querySelector("#drop-zone") as HTMLLabelElement;
+    const fileInput = document.querySelector(
+      "#file-upload",
+    ) as HTMLInputElement;
+
+    const preventDefaults = (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const highlight = (e: DragEvent) => {
+      dropZone.classList.add("border-blue-500", "bg-blue-50");
+    };
+
+    const unHighlight = (e: DragEvent) => {
+      dropZone.classList.remove("border-blue-500", "bg-blue-50");
+    };
+
+    // Evitar que al arrastrar y soltar se abra el explorador o que la imagen se abra
+    (["dragenter", "dragleave", "dragover", "drop"] as const).forEach(
+      (eventName) => {
+        dropZone.addEventListener(eventName, preventDefaults);
+        document.body.addEventListener(eventName, preventDefaults);
+      },
+    );
+
+    // Indicarle a la persona que cuando este haciendo una drag para que cambie visualmente la caja
+    (["dragenter", "dragover"] as const).forEach((eventName) => {
+      dropZone.addEventListener(eventName, highlight);
+    });
+
+    // Cuando se deje de hacer drag
+    (["dragleave", "drop"] as const).forEach((eventName) => {
+      dropZone.addEventListener(eventName, unHighlight);
     });
   });
 </script>
