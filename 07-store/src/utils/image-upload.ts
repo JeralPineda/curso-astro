@@ -19,4 +19,19 @@ export class ImageUpload {
 
     return resp.secure_url;
   }
+
+  static async delete(image: string) {
+    try {
+      const imageName = image.split("/").pop() ?? "";
+      const imageId = imageName.split(".")[0];
+
+      const resp = await cloudinary.uploader.destroy(imageId);
+      console.log("🚀 image-upload.ts -> #29 ~ resp:", resp);
+
+      return true;
+    } catch (error) {
+      console.log("🚀 image-upload.ts -> #30 ~ error:", error);
+      return false;
+    }
+  }
 }
