@@ -24,18 +24,13 @@ export const deleteProductImage = defineAction({
       .from(productImages)
       .where(eq(productImages.id, imageId));
 
-    console.log(
-      "🚀 delete-product-image.action.ts -> #26 ~ productImage:",
-      JSON.stringify(productImage, null, 2),
-    );
-
     if (!productImages) {
       throw new Error(`image with id ${imageId} not found`);
     }
 
     const deleted = await db
       .delete(productImages)
-      .where(eq(productImages.id, productImage.id));
+      .where(eq(productImages.id, imageId));
 
     if (productImage.image.includes("http")) {
       await ImageUpload.delete(productImage.image);

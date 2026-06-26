@@ -42,6 +42,7 @@ export async function getProductBySlug(slug: string) {
 
   return {
     product,
-    images: images.map((i) => i.image),
+    // images: images.map((i) => i.image),
+    images,
   };
 }
